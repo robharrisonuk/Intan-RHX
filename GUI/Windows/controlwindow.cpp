@@ -39,6 +39,7 @@
 #include "referenceselectdialog.h"
 #include "controlwindow.h"
 #include "scrollablemessageboxdialog.h"
+#include "ButtonSocketListener.h"
 
 using namespace std;
 
@@ -143,8 +144,8 @@ ControlWindow::ControlWindow(SystemState* state_, CommandParser* parser_, Contro
     currentlyRecording(false),
     fastPlaybackMode(false),
     hwFifoNearlyFull(0),
-    mainCpuLoad(0.0)
-
+    mainCpuLoad(0.0),
+	buttonListener(nullptr)	
 {
     setAcceptDrops(true);
     state->writeToLog("Entered ControlWindow ctor");
@@ -313,6 +314,13 @@ ControlWindow::ControlWindow(SystemState* state_, CommandParser* parser_, Contro
     state->writeToLog("About to updateMenus()");
     updateMenus();
     state->writeToLog("Finished updateMenus(). End of ctor");
+
+	state->writeToLog("Create button socket listener");
+
+	buttonListener = new ButtonSocketListener(recordAction, stopAction);
+
+	state->writeToLog("Finished create button socket listener");
+
 }
 
 ControlWindow::~ControlWindow()
@@ -352,6 +360,10 @@ ControlWindow::~ControlWindow()
     if (stimParametersInterface) {
         delete stimParametersInterface;
     }
+
+	if (buttonListener) {
+		delete buttonListener;
+	}
 
     // Save ControlWindow maximize state, size, position, and ControlPanel expanded state and current tab to QSettings.
     QSettings settings;

@@ -57,6 +57,7 @@
 #include "statusbars.h"
 
 class QPushButton;
+class ButtonSocketListener;
 
 class ControlWindow : public QMainWindow
 {
@@ -310,6 +311,8 @@ private:
     XMLInterface* stimParametersInterface;
 
     StimParametersClipboard *stimClipboard;
+
+	ButtonSocketListener* buttonListener;
 
     bool currentlyRunning;
     bool currentlyRecording;

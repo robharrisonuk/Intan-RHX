@@ -143,6 +143,7 @@ set(HEADER_FILES
     GUI/Widgets/controlpanel.h
     GUI/Widgets/spectrogramplot.h
     GUI/Windows/viewfilterswindow.h
+	GUI/Windows/ButtonSocketListener.h
 	)
 	
 set(SOURCE_FILES 
@@ -259,6 +260,7 @@ main.cpp
     GUI/Widgets/spectrogramplot.cpp
     GUI/Windows/viewfilterswindow.cpp
 	IntanRHX.qrc
+	GUI/Windows/ButtonSocketListener.cpp
 	)
 
 add_executable (${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
@@ -269,9 +271,10 @@ target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Netwo
 
 
 if(WIN32)
-	target_link_libraries(${PROJECT_NAME}  opengl32.lib glu32.lib)
+	target_link_libraries(${PROJECT_NAME}  opengl32.lib glu32.lib Ws2_32.lib)
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS /DEBUG)
 else()
+
 endif()
 
 add_library(opencl STATIC IMPORTED)
